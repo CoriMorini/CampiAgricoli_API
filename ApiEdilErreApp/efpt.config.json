@@ -1,0 +1,86 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "CoraziendaSLContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "ApiEdilErreApp",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[TabAPP_Automezzi]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabAPP_Operatori]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabAPP_Parametri]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabAPP_Slots]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabAPP_TipoSlot]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabAutoMezzi]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabCantieri]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabCantieriFasi]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TabCantieriMacroFasi]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[APPVistaSlot]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[APPVistaSlotAutomezzi]",
+         "ObjectType": 3
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": true,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
