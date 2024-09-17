@@ -6,18 +6,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiEdilErreApp.Models;
+namespace ApiCampiAgricoli.Models;
 
-public partial class TabCantieriMacroFasi
+[Index("IdCampo", Name = "IX_TabCampi")]
+public partial class TabCampi
 {
     [Key]
-    public int IdCantiereMacroFase { get; set; }
+    public int IdCampo { get; set; }
 
-    public int? OrdinaleCantiereMacroFase { get; set; }
+    public int IdUtente { get; set; }
 
-    [StringLength(10)]
-    public string CodiceCantiereMacroFase { get; set; }
-
+    [Required]
     [StringLength(50)]
-    public string DescrizioneCantiereMacroFase { get; set; }
+    public string NomeCampo { get; set; }
 }

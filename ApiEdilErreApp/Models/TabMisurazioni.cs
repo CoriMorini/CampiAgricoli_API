@@ -6,16 +6,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiEdilErreApp.Models;
+namespace ApiCampiAgricoli.Models;
 
-public partial class TabAPP_TipoSlot
+public partial class TabMisurazioni
 {
     [Key]
-    public int APP_IdTipoSlot { get; set; }
+    public int IdMisurazione { get; set; }
 
-    [StringLength(10)]
-    public string APP_CodiceTipoSlot { get; set; }
+    public int IdSensore { get; set; }
 
-    [StringLength(50)]
-    public string APP_DescrizioneTipoSlot { get; set; }
+    public double? valoreMisurazione { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime dataOraCertaMisurazione { get; set; }
 }

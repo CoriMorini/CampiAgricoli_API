@@ -1,4 +1,4 @@
-﻿using ApiEdilErreApp.Models;
+﻿using ApiCampiAgricoli.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 
@@ -18,26 +18,19 @@ public class LoginController : ControllerBase
 
 
 
-    [HttpGet("auth")]
-    public ActionResult<TabAPP_Operatori> Get(String username, String password)
+    [HttpGet("GetLogin")]
+    public ActionResult<TabUtenti> Get(String username, String password)
     {
-        using (var db = new CoraziendaSLContext())
+        using (var db = new CampiAgricoliContext())
         {
-            TabAPP_Operatori operatore = db.TabAPP_Operatori.Where(x => x.APP_Uid == username && x.APP_Pwd == password).FirstOrDefault();
+            TabUtenti? operatore = db.TabUtenti.Where(x => x.UsernameUtente == username && x.PasswordUtente == password).FirstOrDefault();
             
             if(operatore == null)
             {
                 return NotFound("Operatore non trovato");
             }
 
-            /*
-            User user = new User
-            {
-                IdOperatore = operatore.APP_IdOperatore,
-                NomeOperatore = operatore.APP_NomePeratore,
-                CognomeOperatore = operatore.APP_CognomeOperatore
-            };
-            */
+            
 
             return Ok(operatore);
 
@@ -45,9 +38,5 @@ public class LoginController : ControllerBase
 
     }
 
-    [HttpGet("check-validity")]
-    public ActionResult<bool> Get(int idOperatore)
-    {
-        return Ok(true);
-    }
+    
 }

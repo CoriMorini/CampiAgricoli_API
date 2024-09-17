@@ -6,14 +6,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiEdilErreApp.Models;
+namespace ApiCampiAgricoli.Models;
 
-public partial class TabAPP_Automezzi
+public partial class TabSensori
 {
     [Key]
-    public int APP_IdAutomezzo { get; set; }
+    public int IdSensore { get; set; }
 
-    public int? APP_IdSlot { get; set; }
+    public int IdMicrocontrollore { get; set; }
 
-    public int? IdAutoMezzo { get; set; }
+    public int IdTipologiaSensore { get; set; }
 }

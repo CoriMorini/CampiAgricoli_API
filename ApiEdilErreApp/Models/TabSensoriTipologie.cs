@@ -6,12 +6,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiEdilErreApp.Models;
+namespace ApiCampiAgricoli.Models;
 
-[Keyless]
-public partial class TabAPP_Parametri
+public partial class TabSensoriTipologie
 {
-    public int? APP_IdParametri { get; set; }
+    [Key]
+    public int IdTipologiaSensore { get; set; }
 
-    public int? APP_RendicontazioneMaxGG { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string DescrizioneTipologiaSensore { get; set; }
 }

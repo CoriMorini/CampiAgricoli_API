@@ -8,55 +8,35 @@
    "OutputContextPath": null,
    "OutputPath": "Models",
    "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "ApiEdilErreApp",
+   "ProjectRootNamespace": "ApiCampiAgricoli",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 2,
    "SelectedToBeGenerated": 0,
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[TabAPP_Automezzi]",
+         "Name": "[dbo].[TabCampi]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TabAPP_Operatori]",
+         "Name": "[dbo].[TabMicrocontrollori]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TabAPP_Parametri]",
+         "Name": "[dbo].[TabMisurazioni]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TabAPP_Slots]",
+         "Name": "[dbo].[TabSensori]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TabAPP_TipoSlot]",
+         "Name": "[dbo].[TabSensoriTipologie]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TabAutoMezzi]",
+         "Name": "[dbo].[TabUtenti]",
          "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TabCantieri]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TabCantieriFasi]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TabCantieriMacroFasi]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[APPVistaSlot]",
-         "ObjectType": 3
-      },
-      {
-         "Name": "[dbo].[APPVistaSlotAutomezzi]",
-         "ObjectType": 3
       }
    ],
    "UiHint": null,
