@@ -37,6 +37,10 @@
       {
          "Name": "[dbo].[TabUtenti]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VistaMisurazioniCampi]",
+         "ObjectType": 3
       }
    ],
    "UiHint": null,

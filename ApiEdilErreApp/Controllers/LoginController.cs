@@ -8,13 +8,7 @@ namespace ApiEdilErreApp.Controllers;
 [Route("[controller]")]
 public class LoginController : ControllerBase
 {
-    public class User()
-    {
-        public int IdOperatore { get; set; }
-        public String NomeOperatore { get; set; }
-        public String CognomeOperatore { get; set; }
-
-    }
+    
 
 
 
@@ -27,10 +21,8 @@ public class LoginController : ControllerBase
             
             if(operatore == null)
             {
-                return NotFound("Operatore non trovato");
+                return Unauthorized("Username o Password Errati");
             }
-
-            
 
             return Ok(operatore);
 
