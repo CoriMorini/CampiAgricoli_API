@@ -9,9 +9,6 @@ namespace ApiEdilErreApp.Controllers;
 public class LoginController : ControllerBase
 {
     
-
-
-
     [HttpGet("GetLogin")]
     public ActionResult<TabUtenti> Get(String username, String password)
     {

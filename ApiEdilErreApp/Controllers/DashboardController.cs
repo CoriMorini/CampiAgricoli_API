@@ -37,6 +37,13 @@ public class DashboardController : ControllerBase
     }
 
 
+    public class TemperaturaMediaMese 
+    {
+        public string mese { get; set; }
+        public double temperatura { get; set; }
+    }
+
+
 
     #endregion
 
@@ -127,12 +134,16 @@ public class DashboardController : ControllerBase
         {
             List<VistaMisurazioniCampi> misurazioniCampo = db.VistaMisurazioniCampi.Where(x => x.IdCampo == idCampo).ToList();
 
-            List<double?> temperatureMedie = new List<double?>();
+            List<TemperaturaMediaMese> temperatureMedie = new List<TemperaturaMediaMese>();
 
             for (int i = 1; i <= 12; i++)
             {
                 double? temperatura = misurazioniCampo.Where(x => x.dataOraCertaMisurazione.Month == i && x.IdTipologiaSensore == 5).Average(x => x.valoreMisurazione);
-                temperatureMedie.Add(temperatura.HasValue ? temperatura : 0);
+                
+                string mese = new DateTime(2021, i, 1).ToString("MMM", new System.Globalization.CultureInfo("it-IT"));
+
+                temperatureMedie.Add(new TemperaturaMediaMese() { mese = mese, temperatura = temperatura.HasValue ? temperatura.Value : 0 });
+
             }
 
             return Ok(temperatureMedie);
