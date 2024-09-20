@@ -38,7 +38,7 @@ public class UtilityController : ControllerBase
 
                             tmp.IdSensore = sensore.IdSensore;
                             tmp.valoreMisurazione = new Random().Next(0, 100);
-                            tmp.dataOraCertaMisurazione = DateTime.Now;
+                            tmp.dataOraCertaMisurazione = new DateTime(new Random().Next(2020, DateTime.Now.Year), new Random().Next(1, 13), new Random().Next(1, 29), new Random().Next(0, 24), new Random().Next(0, 60), new Random().Next(0, 60));
 
                             db.TabMisurazioni.Add(tmp);
 
