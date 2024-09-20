@@ -54,5 +54,50 @@ public class UtilityController : ControllerBase
         return misurazioniInserite;
     }
 
+
+    [HttpGet("GeneraNuovoCampo")]
+    public ActionResult<int> Get(int idUtente, String nomeCampo)
+    {
+        using (var db = new CampiAgricoliContext())
+        {
+            TabCampi tmp = new TabCampi();
+
+            tmp.IdUtente = idUtente;
+            tmp.NomeCampo = nomeCampo;
+
+            db.TabCampi.Add(tmp);
+            db.SaveChanges();
+
+            for (int i = 0; i < new Random().Next(1, 10); i++)
+            {
+                TabMicrocontrollori micro = new TabMicrocontrollori();
+
+                micro.IdCampo = tmp.IdCampo;
+
+                db.TabMicrocontrollori.Add(micro);
+                db.SaveChanges();
+
+                List<TabSensoriTipologie> tipologieSensori = db.TabSensoriTipologie.ToList();
+
+                foreach(TabSensoriTipologie tipologia in tipologieSensori)
+                {
+                   
+                    TabSensori sensore = new TabSensori();
+
+                    sensore.IdMicrocontrollore = micro.IdMicrocontrollore;
+                    sensore.IdTipologiaSensore = tipologia.IdTipologiaSensore; 
+
+                    db.TabSensori.Add(sensore);
+                    
+                }
+            }
+
+
+            db.SaveChanges();
+
+            return tmp.IdCampo;
+        };
+    }
+
     
 }
