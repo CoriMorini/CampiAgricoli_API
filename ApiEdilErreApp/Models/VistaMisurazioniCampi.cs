@@ -27,4 +27,10 @@ public partial class VistaMisurazioniCampi
 
     [Column(TypeName = "datetime")]
     public DateTime dataOraCertaMisurazione { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string DescrizioneTipologiaSensore { get; set; }
+
+    public int IdUtente { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using ApiCampiAgricoli.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
+using static ApiEdilErreApp.Controllers.ReportController;
 
 namespace ApiEdilErreApp.Controllers;
 
@@ -9,7 +10,7 @@ namespace ApiEdilErreApp.Controllers;
 public class DashboardController : ControllerBase
 {
 
-    #region data models di appoggio
+    #region data models e funzioni di appoggio
 
     public class NPKCampoMediaMese
     {
@@ -36,6 +37,15 @@ public class DashboardController : ControllerBase
 
     }
 
+    public class InfoCardCampo 
+    {
+        public string nomeCampo { get; set; }
+        public int saluteCampo { get; set; }
+        public int numeroMisurazioni { get; set; }
+        public int numeroErrori { get; set; }
+        public int numeroMicrocontrolloriAttivi { get; set; }
+    }
+
 
     public class TemperaturaMediaMese 
     {
@@ -44,16 +54,67 @@ public class DashboardController : ControllerBase
     }
 
 
+    public static int CalcolaPunteggioSalute(double NPK, double tempAmbiente, double tempSuolo, double umidita)
+    {
+        // 1. Valutazione NPK (idealmente tra 100 e 200 per questo esempio)
+        double NPKScore = Math.Min(Math.Max((NPK - 100) / (200 - 100), 0), 1);
+
+        // 2. Temperatura ambiente (range ideale: 20-30°C)
+        double tempAmbienteScore = Math.Min(Math.Max((tempAmbiente - 20) / (30 - 20), 0), 1);
+
+        // 3. Temperatura del suolo (range ideale: 15-25°C)
+        double tempSuoloScore = Math.Min(Math.Max((tempSuolo - 15) / (25 - 15), 0), 1);
+
+        // 4. Umidità (range ideale: 40-60%)
+        double umiditaScore = Math.Min(Math.Max((umidita - 40) / (60 - 40), 0), 1);
+
+        // Calcolo del punteggio finale ponderato
+        double punteggioSalute =
+            0.4 * NPKScore + // Importanza maggiore per NPK
+            0.2 * tempAmbienteScore +
+            0.2 * tempSuoloScore +
+            0.2 * umiditaScore;
+
+        // Convertire il punteggio in un range da 0 a 100
+        return (int)Math.Round(punteggioSalute * 100);
+    }
+
 
     #endregion
 
 
     [HttpGet("GetListCardCampi")]
-    public ActionResult<bool> GetListCardCampi(int idUtente)
+    public ActionResult<List<InfoCardCampo>> GetListCardCampi(int idUtente)
     {
         using (var db = new CampiAgricoliContext())
         {
-            return true;
+            List<VistaMisurazioniCampi> misurazioniCampi = db.VistaMisurazioniCampi.Where(x => x.IdUtente == idUtente).ToList();
+
+            List<TabCampi> campiUtente = db.TabCampi.Where(x => x.IdUtente == idUtente).ToList();
+
+            List<InfoCardCampo> infoCardCampi = new List<InfoCardCampo>();
+
+            foreach (TabCampi campo in campiUtente)
+            {
+                InfoCardCampo tmp = new InfoCardCampo();
+
+                tmp.nomeCampo = campo.NomeCampo;
+                tmp.numeroMisurazioni = misurazioniCampi.Where(x => x.IdCampo == campo.IdCampo).Count();
+                tmp.numeroErrori = new Random().Next(1, 9999);
+                tmp.numeroMicrocontrolloriAttivi = db.TabMicrocontrollori.Where(x => x.IdCampo == campo.IdCampo).Count();
+
+                tmp.saluteCampo = CalcolaPunteggioSalute(
+                    new Random().Next(0, 400),
+                    new Random().Next(0, 45),
+                    new Random().Next(0, 45),
+                    new Random().Next(0, 99)
+                );
+
+                // Aggiungere qui eventuali altre informazioni da visualizzare
+                infoCardCampi.Add(tmp);
+            }
+
+            return infoCardCampi;
 
         };
 
