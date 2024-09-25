@@ -29,6 +29,8 @@ public partial class CampiAgricoliContext : DbContext
 
     public virtual DbSet<TabUtenti> TabUtenti { get; set; }
 
+    public virtual DbSet<VistaMicrocontrolloriUtente> VistaMicrocontrolloriUtente { get; set; }
+
     public virtual DbSet<VistaMisurazioniCampi> VistaMisurazioniCampi { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,6 +40,11 @@ public partial class CampiAgricoliContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Latin1_General_CI_AS");
+
+        modelBuilder.Entity<VistaMicrocontrolloriUtente>(entity =>
+        {
+            entity.ToView("VistaMicrocontrolloriUtente");
+        });
 
         modelBuilder.Entity<VistaMisurazioniCampi>(entity =>
         {

@@ -39,6 +39,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[VistaMicrocontrolloriUtente]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[VistaMisurazioniCampi]",
          "ObjectType": 3
       }
