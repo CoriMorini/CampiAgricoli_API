@@ -18,4 +18,7 @@ public partial class TabMicrocontrollori
     public double? Latitudine { get; set; }
 
     public double? Longitudine { get; set; }
+
+    [StringLength(50)]
+    public string NomeMicrocontrollore { get; set; }
 }
