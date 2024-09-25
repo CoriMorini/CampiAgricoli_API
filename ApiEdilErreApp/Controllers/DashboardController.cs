@@ -22,7 +22,6 @@ public class DashboardController : ControllerBase
         public double? deltaP { get; set; }
         public double? deltaK { get; set; }
     }
-
     public class InfoCampoData
     {
         public double? N { get; set; }
@@ -36,7 +35,6 @@ public class DashboardController : ControllerBase
         public double? TemperaturaSuolo { get; set; }
 
     }
-
     public class InfoCardCampo 
     {
         public string nomeCampo { get; set; }
@@ -45,8 +43,6 @@ public class DashboardController : ControllerBase
         public int numeroErrori { get; set; }
         public int numeroMicrocontrolloriAttivi { get; set; }
     }
-
-
     public class TemperaturaMediaMese 
     {
         public string mese { get; set; }
@@ -56,28 +52,44 @@ public class DashboardController : ControllerBase
 
     public static int CalcolaPunteggioSalute(double NPK, double tempAmbiente, double tempSuolo, double umidita)
     {
-        // 1. Valutazione NPK (idealmente tra 100 e 200 per questo esempio)
-        double NPKScore = Math.Min(Math.Max((NPK - 100) / (200 - 100), 0), 1);
+        // 1. Valutazione NPK (range ideale: 50-70)
+        double NPKScore = Math.Min(Math.Max((NPK - 50) / (70 - 50), 0), 1);
 
         // 2. Temperatura ambiente (range ideale: 20-30°C)
         double tempAmbienteScore = Math.Min(Math.Max((tempAmbiente - 20) / (30 - 20), 0), 1);
 
-        // 3. Temperatura del suolo (range ideale: 15-25°C)
-        double tempSuoloScore = Math.Min(Math.Max((tempSuolo - 15) / (25 - 15), 0), 1);
+        // 3. Temperatura del suolo (range ideale: 30-35°C)
+        double tempSuoloScore = Math.Min(Math.Max((tempSuolo - 30) / (35 - 30), 0), 1);
 
-        // 4. Umidità (range ideale: 40-60%)
-        double umiditaScore = Math.Min(Math.Max((umidita - 40) / (60 - 40), 0), 1);
+        // 4. Umidità (range ideale: 50-70%)
+        double umiditaScore = Math.Min(Math.Max((umidita - 50) / (70 - 50), 0), 1);
 
-        // Calcolo del punteggio finale ponderato
+        // Generazione di pesi casuali
+        Random random = new Random();
+        double pesoNPK = random.NextDouble();        // Peso casuale per NPK
+        double pesoTempAmbiente = random.NextDouble(); // Peso casuale per tempAmbiente
+        double pesoTempSuolo = random.NextDouble();   // Peso casuale per tempSuolo
+        double pesoUmidita = random.NextDouble();     // Peso casuale per umidità
+
+        // Normalizzazione dei pesi per far sì che la loro somma sia pari a 1
+        double sommaPesi = pesoNPK + pesoTempAmbiente + pesoTempSuolo + pesoUmidita;
+        pesoNPK /= sommaPesi;
+        pesoTempAmbiente /= sommaPesi;
+        pesoTempSuolo /= sommaPesi;
+        pesoUmidita /= sommaPesi;
+
+        // Calcolo del punteggio finale ponderato con pesi random
         double punteggioSalute =
-            0.4 * NPKScore + // Importanza maggiore per NPK
-            0.2 * tempAmbienteScore +
-            0.2 * tempSuoloScore +
-            0.2 * umiditaScore;
+            pesoNPK * NPKScore +
+            pesoTempAmbiente * tempAmbienteScore +
+            pesoTempSuolo * tempSuoloScore +
+            pesoUmidita * umiditaScore;
 
         // Convertire il punteggio in un range da 0 a 100
         return (int)Math.Round(punteggioSalute * 100);
     }
+
+
 
 
     #endregion
@@ -103,12 +115,23 @@ public class DashboardController : ControllerBase
                 tmp.numeroErrori = new Random().Next(1, 9999);
                 tmp.numeroMicrocontrolloriAttivi = db.TabMicrocontrollori.Where(x => x.IdCampo == campo.IdCampo).Count();
 
+                /*
                 tmp.saluteCampo = CalcolaPunteggioSalute(
-                    new Random().Next(0, 400),
-                    new Random().Next(0, 45),
-                    new Random().Next(0, 45),
-                    new Random().Next(0, 99)
+                    db.VistaMisurazioniCampi.Where(x => x.IdCampo == campo.IdCampo && (x.IdTipologiaSensore == 1 || x.IdTipologiaSensore == 2 || x.IdTipologiaSensore == 3)).Average(x => x.valoreMisurazione) ?? 0,
+                    db.VistaMisurazioniCampi.Where(x => x.IdCampo == campo.IdCampo && x.IdTipologiaSensore == 4).Average(x => x.valoreMisurazione) ?? 0,
+                    db.VistaMisurazioniCampi.Where(x => x.IdCampo == campo.IdCampo && x.IdTipologiaSensore == 5).Average(x => x.valoreMisurazione) ?? 0,
+                    db.VistaMisurazioniCampi.Where(x => x.IdCampo == campo.IdCampo && x.IdTipologiaSensore == 6).Average(x => x.valoreMisurazione) ?? 0
                 );
+                */
+
+                tmp.saluteCampo = CalcolaPunteggioSalute(
+                    new Random().Next(50, 70),
+                    new Random().Next(20, 30),
+                    new Random().Next(30, 35),
+                    new Random().Next(50, 70)
+
+                );
+
 
                 // Aggiungere qui eventuali altre informazioni da visualizzare
                 infoCardCampi.Add(tmp);

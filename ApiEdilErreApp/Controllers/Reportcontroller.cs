@@ -52,9 +52,6 @@ public class ReportController : ControllerBase
 
     #endregion
 
-   
-
-
     [HttpGet("GetLastNPK")]
     public ActionResult<List<NPK>> GetLastNPK(int idCampo)
     {
