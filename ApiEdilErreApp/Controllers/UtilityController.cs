@@ -184,18 +184,18 @@ public class UtilityController : ControllerBase
 
                             for (int n = 1; n <= giorniNelMese; n++) // i giorni vanno da 1 al numero di giorni del mese
                             {
-                                for (int o = 0; o < 12; o++) // le ore vanno da 0 a 23
-                                {
+                                //for (int o = 0; o < 12; o++) // le ore vanno da 0 a 23
+                                //{
                                     TabMisurazioni misurazione = new TabMisurazioni();
 
                                     misurazione.IdSensore = sensore.IdSensore;
                                     misurazione.valoreMisurazione = random.Next(0, 100);
-                                    misurazione.dataOraCertaMisurazione = new DateTime(2023 + l, m, n, (o*2), 0, 0); // Data valida
+                                    misurazione.dataOraCertaMisurazione = new DateTime(2023 + l, m, n, 12, 0, 0); // Data valida
 
                                     db.TabMisurazioni.Add(misurazione);
 
                                     count++;
-                                }
+                                //}
                             }
                         }
                     }                 
