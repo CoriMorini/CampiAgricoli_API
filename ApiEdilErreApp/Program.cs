@@ -1,5 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseUrls("http://0.0.0.0:5001"); // Ascolta su tutte le interfacce
+
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -11,6 +13,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +26,7 @@ var app = builder.Build();
 //}
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 
