@@ -9,19 +9,19 @@ using Microsoft.EntityFrameworkCore;
 namespace ApiCampiAgricoli.Models;
 
 [Keyless]
-public partial class VistaMisurazioniCampi
+public partial class VistaMisurazioniUtente
 {
     public int IdMisurazione { get; set; }
 
     public int IdSensore { get; set; }
 
-    public int Expr1 { get; set; }
+    public int IdTipologiaSensore { get; set; }
 
     public int IdMicrocontrollore { get; set; }
 
-    public int IdTipologiaSensore { get; set; }
-
     public int IdCampo { get; set; }
+
+    public int IdUtente { get; set; }
 
     public double? valoreMisurazione { get; set; }
 
@@ -31,6 +31,4 @@ public partial class VistaMisurazioniCampi
     [Required]
     [StringLength(50)]
     public string DescrizioneTipologiaSensore { get; set; }
-
-    public int IdUtente { get; set; }
 }

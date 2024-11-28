@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiCampiAgricoli.Models;
 
-[Index("IdCampo", Name = "IX_TabCampi")]
 public partial class TabCampi
 {
     [Key]
