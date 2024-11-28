@@ -10,16 +10,6 @@ public class ReportController : ControllerBase
 {
     #region data models di appoggio
 
-    public class NPK
-    {
-        public double? N { get; set; }
-        public double? P { get; set; }
-        public double? K { get; set; }
-
-        public DateTime dataOraCerta { get; set; }
-
-    }
-
     public class Um
     {
         public double? Umidita { get; set; }
@@ -34,17 +24,18 @@ public class ReportController : ControllerBase
 
     public class ReportGenerale 
     {         
-        public List<NPK> npk { get; set; }
-        public List<Um> umidita { get; set; }
+        public List<Um> umiditaAmb { get; set; }
+
+        public List<Um> umiditaTer { get; set; }
         public List<Temp> temperaturaAmb { get; set; }
-        public List<Temp> temperaturaSuolo { get; set; }
+        public List<Temp> temperaturaTer { get; set; }
 
         public ReportGenerale()
         {
-            npk = new List<NPK>();
-            umidita = new List<Um>();
+            umiditaAmb = new List<Um>();
+            umiditaTer = new List<Um>();
             temperaturaAmb = new List<Temp>();
-            temperaturaSuolo = new List<Temp>();
+            temperaturaTer = new List<Temp>();
         }
     }
 
@@ -52,69 +43,30 @@ public class ReportController : ControllerBase
 
     #endregion
 
-    [HttpGet("GetLastNPK")]
-    public ActionResult<List<NPK>> GetLastNPK(int idCampo)
+    
+
+    [HttpGet("GetLastUmiditaAmb")]
+    public ActionResult<List<Um>> GetLastUmiditaAmb(int idCampo)
     {
         using (var db = new CampiAgricoliContext())
         {
-            List<VistaMisurazioniCampi> misurazioniCampo = db.VistaMisurazioniCampi.Where(x => x.IdCampo == idCampo).ToList();
+            List<VistaMisurazioniUtente> misurazioniCampo = db.VistaMisurazioniUtente.Where(x => x.IdCampo == idCampo).ToList();
 
-            if (misurazioniCampo.Count == 0)
-            {
-                return NotFound("Non ci sono misurazioni per questo campo");
-            }
+            List<Um> umidita = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 1).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Um { Umidita = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
-            List<NPK> nPKs = new List<NPK>();
-
-            for (int i = 0; i < 5; i++)
-            {
-                NPK nPK = new NPK();
-
-                // N
-                //
-                foreach (var misurazione in misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 1).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5))
-                {
-                    nPK.N = misurazione.valoreMisurazione;
-                    nPK.dataOraCerta = misurazione.dataOraCertaMisurazione;
-                }
-
-                // P
-                //
-                foreach (var misurazione in misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 2).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5))
-                {
-                    nPK.P = misurazione.valoreMisurazione;
-                }
-
-                // K
-                //
-                foreach (var misurazione in misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 3).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5))
-                {
-                    nPK.K = misurazione.valoreMisurazione;
-                }
-
-                
-
-
-                //Add to list
-                //
-                nPKs.Add(nPK);
-            }
-
-            
-            return Ok(nPKs); 
-
+            return Ok(umidita);
         };
 
     }
 
-    [HttpGet("GetLastUmidita")]
-    public ActionResult<List<Um>> GetLastUmidita(int idCampo)
+    [HttpGet("GetLastUmiditaTer")]
+    public ActionResult<List<Um>> GetLastUmiditaTer(int idCampo)
     {
         using (var db = new CampiAgricoliContext())
         {
-            List<VistaMisurazioniCampi> misurazioniCampo = db.VistaMisurazioniCampi.Where(x => x.IdCampo == idCampo).ToList();
+            List<VistaMisurazioniUtente> misurazioniCampo = db.VistaMisurazioniUtente.Where(x => x.IdCampo == idCampo).ToList();
 
-            List<Um> umidita = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 4).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Um { Umidita = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
+            List<Um> umidita = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 2).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Um { Umidita = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
             return Ok(umidita);
         };
@@ -126,23 +78,23 @@ public class ReportController : ControllerBase
     {
         using (var db = new CampiAgricoliContext())
         {
-            List<VistaMisurazioniCampi> misurazioniCampo = db.VistaMisurazioniCampi.Where(x => x.IdCampo == idCampo).ToList();
+            List<VistaMisurazioniUtente> misurazioniCampo = db.VistaMisurazioniUtente.Where(x => x.IdCampo == idCampo).ToList();
 
-            List<Temp> temp = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 5).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
+            List<Temp> temp = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 3).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
             return Ok(temp);
         };
 
     }
 
-    [HttpGet("GetLastTemperaturaSuolo")]
-    public ActionResult<List<Temp>> GetLastTemperaturaSuolo(int idCampo)
+    [HttpGet("GetLastTemperaturaTer")]
+    public ActionResult<List<Temp>> GetLastTemperaturaTer(int idCampo)
     {
         using (var db = new CampiAgricoliContext())
         {
-            List<VistaMisurazioniCampi> misurazioniCampo = db.VistaMisurazioniCampi.Where(x => x.IdCampo == idCampo).ToList();
+            List<VistaMisurazioniUtente> misurazioniCampo = db.VistaMisurazioniUtente.Where(x => x.IdCampo == idCampo).ToList();
 
-            List<Temp> temp = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 6).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
+            List<Temp> temp = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 4).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
             return Ok(temp);
         };
@@ -156,70 +108,29 @@ public class ReportController : ControllerBase
         {
             ReportGenerale report = new ReportGenerale();
 
-            List<VistaMisurazioniCampi> misurazioniCampo = db.VistaMisurazioniCampi.Where(x => x.IdCampo == idCampo).ToList();
+            List<VistaMisurazioniUtente> misurazioniCampo = db.VistaMisurazioniUtente.Where(x => x.IdCampo == idCampo).ToList();
 
-            #region NPK
+            #region UmiditaAmb
 
-
-
-            if (misurazioniCampo.Count == 0)
-            {
-                return NotFound("Non ci sono misurazioni per questo campo");
-            }
-
-            
-
-            for (int i = 0; i < 5; i++)
-            {
-                NPK nPK = new NPK();
-
-                // N
-                //
-                foreach (var misurazione in misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 1).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5))
-                {
-                    nPK.N = misurazione.valoreMisurazione;
-                    nPK.dataOraCerta = misurazione.dataOraCertaMisurazione;
-                }
-
-                // P
-                //
-                foreach (var misurazione in misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 2).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5))
-                {
-                    nPK.P = misurazione.valoreMisurazione;
-                }
-
-                // K
-                //
-                foreach (var misurazione in misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 3).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5))
-                {
-                    nPK.K = misurazione.valoreMisurazione;
-                }
-
-
-
-
-                //Add to list
-                //
-                report.npk.Add(nPK);
-            }
+            report.umiditaAmb = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 1).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Um { Umidita = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
             #endregion
 
-            #region Umidita
+            #region UmiditaTer
 
-            report.umidita = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 4).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Um { Umidita = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
+            report.umiditaTer = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 2).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Um { Umidita = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
             #endregion
 
             #region TemperaturaAmb
 
-            report.temperaturaAmb = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 5).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
+            report.temperaturaAmb = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 3).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
             #endregion
 
             #region TemperaturaSuolo
 
-            report.temperaturaSuolo = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 6).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
+            report.temperaturaTer = misurazioniCampo.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == 4).OrderByDescending(x => x.dataOraCertaMisurazione).Take(5).Select(x => new Temp { Temperatura = x.valoreMisurazione, dataOraCerta = x.dataOraCertaMisurazione }).ToList();
 
             #endregion
 

@@ -15,10 +15,10 @@ public partial class TabMicrocontrollori
 
     public int IdCampo { get; set; }
 
+    [StringLength(50)]
+    public string NomeMicrocontrollore { get; set; }
+
     public double? Latitudine { get; set; }
 
     public double? Longitudine { get; set; }
-
-    [StringLength(50)]
-    public string NomeMicrocontrollore { get; set; }
 }

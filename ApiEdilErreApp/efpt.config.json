@@ -43,7 +43,7 @@
          "ObjectType": 3
       },
       {
-         "Name": "[dbo].[VistaMisurazioniCampi]",
+         "Name": "[dbo].[VistaMisurazioniUtente]",
          "ObjectType": 3
       }
    ],
