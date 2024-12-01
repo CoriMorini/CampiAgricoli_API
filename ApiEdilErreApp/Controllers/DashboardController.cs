@@ -138,21 +138,26 @@ public class DashboardController : ControllerBase
 
             // Calcolo della media per i vari sensori, se esistono dati
             double? umiditaAmb = misurazioniCampo
-                .Where(x => x.IdTipologiaSensore == 4)  // Sensore umidità ambiente
+                .Where(x => x.IdTipologiaSensore == 1)  // Sensore umidità ambiente
+                .Average(x => x.valoreMisurazione);
+
+            double? umiditaTer = misurazioniCampo
+                .Where(x => x.IdTipologiaSensore == 2)
                 .Average(x => x.valoreMisurazione);
 
             double? temperaturaAmb = misurazioniCampo
-                .Where(x => x.IdTipologiaSensore == 5)  // Sensore temperatura ambiente
+                .Where(x => x.IdTipologiaSensore == 3)  // Sensore temperatura ambiente
                 .Average(x => x.valoreMisurazione);
 
             double? temperaturaSuolo = misurazioniCampo
-                .Where(x => x.IdTipologiaSensore == 6)  // Sensore temperatura suolo
+                .Where(x => x.IdTipologiaSensore == 4)  // Sensore temperatura suolo
                 .Average(x => x.valoreMisurazione);
 
             // Creazione del risultato con i dati calcolati o 0 se i valori non sono disponibili
             InfoCampoData risultato = new InfoCampoData
             {
                 UmiditaAmb = umiditaAmb ?? 0,   // Se non ci sono dati, assegno 0
+                UmiditaTer = umiditaTer ?? 0,
                 TemperaturaAmb = temperaturaAmb ?? 0,
                 TemperaturaSuolo = temperaturaSuolo ?? 0
             };

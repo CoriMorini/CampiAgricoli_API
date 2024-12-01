@@ -25,7 +25,6 @@ public class ReportController : ControllerBase
     public class ReportGenerale 
     {         
         public List<Um> umiditaAmb { get; set; }
-
         public List<Um> umiditaTer { get; set; }
         public List<Temp> temperaturaAmb { get; set; }
         public List<Temp> temperaturaTer { get; set; }

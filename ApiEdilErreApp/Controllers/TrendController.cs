@@ -59,7 +59,7 @@ namespace ApiEdilErreApp.Controllers
             {
                 try
                 {
-                    for(int j = 1; j <= 6; j++)
+                    for(int j = 1; j <= 4; j++)
                     {
                         List<VistaMisurazioniUtente> listaMisurazioniCampi = db.VistaMisurazioniUtente.Where(x => x.IdCampo == idCampo && x.IdTipologiaSensore == j).ToList();
 
